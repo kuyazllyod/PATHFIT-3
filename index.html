@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PATHFIT-3 Gamified PE Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .view {
+            display: none;
+        }
+        .view.active {
+            display: block;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div id="app" class="max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
+        
+        <!-- App Header & Navigation -->
+        <header class="bg-white rounded-xl shadow-md p-4 mb-6 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-indigo-600">PATHFIT-3 Platform</h1>
+            <nav class="flex items-center space-x-2">
+                <button onclick="showView('student-dashboard')" class="nav-btn bg-indigo-500 text-white py-2 px-4 rounded-lg shadow hover:bg-indigo-600 transition-all duration-300 flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    <span class="hidden md:inline">Student</span>
+                </button>
+                 <button onclick="showView('activity-detail')" class="nav-btn bg-gray-200 text-gray-700 py-2 px-4 rounded-lg shadow hover:bg-gray-300 transition-all duration-300 flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                    <span class="hidden md:inline">Activity</span>
+                </button>
+                <button onclick="showView('teacher-review')" class="nav-btn bg-gray-200 text-gray-700 py-2 px-4 rounded-lg shadow hover:bg-gray-300 transition-all duration-300 flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>
+                    <span class="hidden md:inline">Teacher</span>
+                </button>
+                <button onclick="showView('admin-builder')" class="nav-btn bg-gray-200 text-gray-700 py-2 px-4 rounded-lg shadow hover:bg-gray-300 transition-all duration-300 flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <span class="hidden md:inline">Admin</span>
+                </button>
+            </nav>
+        </header>
+
+        <!-- Main Content Area -->
+        <main>
+            <!-- Screen: Student Dashboard -->
+            <div id="student-dashboard" class="view active">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4 mb-4">
+                        <div>
+                            <h2 class="text-sm uppercase text-indigo-500 font-semibold">PATHFIT-3</h2>
+                            <p class="text-3xl font-bold">Student Dashboard</p>
+                        </div>
+                        <div class="text-lg font-semibold text-gray-600 mt-2 md:mt-0">Welcome, Juan!</div>
+                    </div>
+
+                    <!-- Gamification Stats -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-center">
+                        <div class="bg-indigo-50 p-4 rounded-lg">
+                            <p class="text-sm text-gray-500">Points</p>
+                            <p class="text-3xl font-bold text-indigo-600">425</p>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <p class="text-sm text-gray-500">Level</p>
+                            <p class="text-3xl font-bold text-green-600">Explorer</p>
+                        </div>
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <p class="text-sm text-gray-500">Next Unlock</p>
+                            <p class="text-3xl font-bold text-yellow-600">500 pts</p>
+                        </div>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-1">
+                            <span class="text-base font-medium text-indigo-700">Level Progress</span>
+                            <span class="text-sm font-medium text-indigo-700">75%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-4">
+                            <div class="bg-indigo-600 h-4 rounded-full" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                        <p class="font-medium">Current Chapter: <span class="text-indigo-700 font-bold">Skill Building</span></p>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-wrap gap-4 justify-center">
+                        <button class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-indigo-700 transition transform hover:-translate-y-1">Continue Chapter</button>
+                        <button class="bg-white border border-indigo-600 text-indigo-600 font-bold py-3 px-6 rounded-lg shadow-md hover:bg-indigo-50 transition">Browse Activities</button>
+                        <button class="bg-gray-700 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-gray-800 transition">View Profile</button>
+                    </div>
+                    
+                    <!-- Recent Activities -->
+                    <div class="mt-8">
+                        <h3 class="text-xl font-bold mb-4">Recent Activities</h3>
+                        <ul class="space-y-3">
+                            <li class="bg-white p-4 rounded-lg shadow-sm border flex justify-between items-center">
+                                <div>
+                                    <p class="font-semibold">Dance: Jazz Routine</p>
+                                    <p class="text-sm text-gray-500">Category: Dance</p>
+                                </div>
+                                <span class="text-sm font-medium bg-yellow-200 text-yellow-800 py-1 px-3 rounded-full">Pending</span>
+                            </li>
+                            <li class="bg-white p-4 rounded-lg shadow-sm border flex justify-between items-center">
+                                <div>
+                                    <p class="font-semibold">Outdoor: Trail Hike</p>
+                                    <p class="text-sm text-gray-500">Category: Outdoor & Adventure</p>
+                                </div>
+                                <span class="text-sm font-medium bg-green-200 text-green-800 py-1 px-3 rounded-full">Completed</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Screen: Activity Detail & Submit -->
+            <div id="activity-detail" class="view">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="border-b pb-4 mb-4">
+                        <h2 class="text-sm uppercase text-green-500 font-semibold">Activity Detail</h2>
+                        <p class="text-3xl font-bold">Mountain Trail Hike</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <p class="text-xs text-gray-500">Category</p>
+                            <p class="font-semibold">Outdoor & Adventure</p>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <p class="text-xs text-gray-500">Points</p>
+                            <p class="font-semibold text-green-600">50</p>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <p class="text-xs text-gray-500">Difficulty</p>
+                            <p class="font-semibold text-orange-600">Medium</p>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <p class="text-xs text-gray-500">Time Est.</p>
+                            <p class="font-semibold">2 hours</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h3 class="font-bold text-lg mb-2">Description</h3>
+                        <p class="text-gray-600">Embark on a scenic mountain trail hike. This activity focuses on endurance, navigation, and appreciation for nature. Ensure you have proper footwear and water. Follow the marked trails and practice leave-no-trace principles.</p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-4 mb-8">
+                        <button class="bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-green-700 transition flex items-center gap-2">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                             Start Activity
+                        </button>
+                        <button class="bg-white border border-gray-400 text-gray-700 font-bold py-3 px-6 rounded-lg shadow-md hover:bg-gray-100 transition flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                            Safety Checklist
+                        </button>
+                    </div>
+
+                    <div class="bg-indigo-50 p-6 rounded-lg">
+                        <h3 class="text-xl font-bold mb-4 text-indigo-800">Submit Evidence</h3>
+                        <div class="flex flex-wrap gap-4 mb-4">
+                            <button class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-indigo-700 transition flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                                Upload Photo
+                            </button>
+                            <button class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-indigo-700 transition flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/></svg>
+                                Upload Video
+                            </button>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-700">Teacher Rubric:</p>
+                            <p class="text-sm text-gray-600">Your submission will be graded on: <span class="font-medium">Skill, Safety, and Teamwork.</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Screen: Teacher Review Panel -->
+            <div id="teacher-review" class="view">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="border-b pb-4 mb-4">
+                        <h2 class="text-sm uppercase text-blue-500 font-semibold">Teacher Panel</h2>
+                        <p class="text-3xl font-bold">Submissions Queue</p>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50 border-b">
+                                <tr>
+                                    <th class="p-4 font-semibold">Student</th>
+                                    <th class="p-4 font-semibold">Activity</th>
+                                    <th class="p-4 font-semibold">Evidence</th>
+                                    <th class="p-4 font-semibold">Grade</th>
+                                    <th class="p-4 font-semibold text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">J. Santos</td>
+                                    <td class="p-4">Jazz Routine</td>
+                                    <td class="p-4"><a href="#" class="text-blue-600 hover:underline">video.mp4</a></td>
+                                    <td class="p-4">
+                                        <input type="text" class="w-20 p-1 border rounded" value="85%">
+                                    </td>
+                                    <td class="p-4 flex gap-2 justify-center">
+                                        <button class="bg-green-500 text-white text-sm py-1 px-3 rounded-md hover:bg-green-600">Approve</button>
+                                        <button class="bg-yellow-500 text-white text-sm py-1 px-3 rounded-md hover:bg-yellow-600">Request Revision</button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">M. Reyes</td>
+                                    <td class="p-4">Trail Hike</td>
+                                    <td class="p-4"><a href="#" class="text-blue-600 hover:underline">image.jpg</a></td>
+                                    <td class="p-4">
+                                        <input type="text" class="w-20 p-1 border rounded" value="">
+                                    </td>
+                                    <td class="p-4 flex gap-2 justify-center">
+                                        <button class="bg-green-500 text-white text-sm py-1 px-3 rounded-md hover:bg-green-600">Approve</button>
+                                        <button class="bg-yellow-500 text-white text-sm py-1 px-3 rounded-md hover:bg-yellow-600">Request Revision</button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">A. Cruz</td>
+                                    <td class="p-4">Basketball Drills</td>
+                                    <td class="p-4"><a href="#" class="text-blue-600 hover:underline">drills_final.mp4</a></td>
+                                    <td class="p-4">
+                                        <input type="text" class="w-20 p-1 border rounded" value="92%">
+                                    </td>
+                                    <td class="p-4 flex gap-2 justify-center">
+                                        <button class="bg-green-500 text-white text-sm py-1 px-3 rounded-md hover:bg-green-600">Approve</button>
+                                        <button class="bg-yellow-500 text-white text-sm py-1 px-3 rounded-md hover:bg-yellow-600">Request Revision</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Screen: Admin - Activity Builder -->
+            <div id="admin-builder" class="view">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="border-b pb-4 mb-4">
+                        <h2 class="text-sm uppercase text-red-500 font-semibold">Admin Panel</h2>
+                        <p class="text-3xl font-bold">Create Activity</p>
+                    </div>
+                    
+                    <form class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+                                <input type="text" id="title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                            </div>
+                            <div>
+                                <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+                                <select id="category" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                                    <option>Dance</option>
+                                    <option>Sports</option>
+                                    <option>Outdoor & Adventure</option>
+                                    <option>Fitness</option>
+                                </select>
+                            </div>
+                        </div>
+
+                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="points" class="block text-sm font-medium text-gray-700">Points</label>
+                                <input type="number" id="points" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                            </div>
+                            <div>
+                                <label for="evidence-type" class="block text-sm font-medium text-gray-700">Evidence Type</label>
+                                <select id="evidence-type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                                    <option>Photo</option>
+                                    <option>Video</option>
+                                    <option>Quiz</option>
+                                    <option>Text Submission</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                            <textarea id="description" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"></textarea>
+                        </div>
+
+                        <div class="flex items-center space-x-8">
+                            <div class="flex items-center">
+                                <input id="safety_req" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-500">
+                                <label for="safety_req" class="ml-2 block text-sm text-gray-900">Safety Requirement?</label>
+                            </div>
+                             <div class="flex items-center">
+                                <input id="parental_consent" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-500" checked>
+                                <label for="parental_consent" class="ml-2 block text-sm text-gray-900">Parental Consent?</label>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-end gap-4 pt-4 border-t">
+                            <button type="button" class="bg-gray-200 text-gray-700 font-bold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Preview</button>
+                            <button type="submit" class="bg-red-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-700 transition">Save Activity</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const views = document.querySelectorAll('.view');
+        const navButtons = document.querySelectorAll('.nav-btn');
+
+        function showView(viewId) {
+            // Hide all views
+            views.forEach(view => {
+                view.classList.remove('active');
+            });
+
+            // Show the selected view
+            const activeView = document.getElementById(viewId);
+            if (activeView) {
+                activeView.classList.add('active');
+            }
+            
+            // Update nav button styles
+            navButtons.forEach(btn => {
+                btn.classList.remove('bg-indigo-500', 'text-white');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+                if (btn.getAttribute('onclick').includes(viewId)) {
+                    btn.classList.add('bg-indigo-500', 'text-white');
+                    btn.classList.remove('bg-gray-200', 'text-gray-700');
+                }
+            });
+        }
+
+        // Initialize with the student dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            showView('student-dashboard');
+        });
+    </script>
+</body>
+</html>
